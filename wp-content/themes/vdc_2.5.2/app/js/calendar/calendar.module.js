@@ -1,1 +1,0 @@
-angular.module('calendar', ['common', 'opps']);
