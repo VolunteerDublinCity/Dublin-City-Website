@@ -36,6 +36,8 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 			$requesting = 'loc';
 		} elseif ($_GET['d']) {
 			$requesting = 'date';
+		} else{
+			$requesting = 'latest';
 		}
 
 		if ($opp_category){
@@ -87,13 +89,13 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 
 		$activities = array();
 		foreach( $posts as $post ){
-			if($opp_category){
-				array_push($activities, get_field("activity"));
-			} elseif ($dub_location) {
+			if ($dub_location) {
 				if ( in_array( 'dub1', get_field('dub_location') ) ) {
 					array_push($activities, get_field("activity"));
 				}
-			}
+			} else {
+				array_push($activities, get_field("activity"));
+			} 
 		}
 		$activities = array_unique($activities);
 		asort($activities);
@@ -117,7 +119,9 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 			<?php
 
 			foreach( $activities as $activity ){
-				if (($requesting == 'loc')) { $activity_test = false;
+				if (($requesting == 'loc')) { 
+					$activity_test = false;
+					
 					foreach( $posts as $post ) {
 						if ( in_array( $dub_location, get_field('dub_location') ) && get_field('activity') == $activity ) {
 							$activity_test = true;
@@ -125,7 +129,7 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 					}
 				}
 
-				if ($activity_test == true || $requesting == 'cat') {
+				if ($activity_test == true || $requesting == 'cat' || $requesting == 'latest') {
 				?>
 					<span class="icon icon-<?php echo $activity; ?> opportunity-title-icon"></span>
 					<h2 class="opportunity-title line-after">
@@ -148,7 +152,8 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 					// if curret activity and requesting catrgories
 
 					if ( ( in_array( $dub_location, get_field('dub_location') ) && get_field('activity') == $activity && $_GET['l'] )
-						|| (get_field('activity') == $activity && $_GET['c'] ) ) {
+						|| (get_field('activity') == $activity && $_GET['c'] ) 
+						|| $requesting == 'latest' && get_field('latest' ) ) {
 					?>
 					<div class="opportunities">
 
