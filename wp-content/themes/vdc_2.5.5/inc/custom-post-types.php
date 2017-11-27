@@ -86,9 +86,9 @@ $our_people->register_taxonomy('role', $args);
 // Managing Volunteers CPT
 $labels = array(
 	'post_type_name' => 'managing-volunteers',
-    	'singular' => 'Manage Volunteer',
-    	'plural' => 'Managing Volunteers',
-    	'slug' => 'managing-volunteers'
+    	'singular' => 'Manage Volunteer (old)',
+    	'plural' => 'Managing Volunteers (old)',
+    	'slug' => 'managing-volunteers (old)'
 );
 $managing_volunteers = new CPT($labels, array(
 	'supports'	=> array('title', 'editor', 'thumbnail'),

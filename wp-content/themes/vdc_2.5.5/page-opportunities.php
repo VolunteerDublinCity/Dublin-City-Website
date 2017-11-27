@@ -148,11 +148,17 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 					
 					// if the current location and curret activity and requesting locations
 					// or 
-					// if curret activity and requesting catrgories  
+					// if curret activity and   -   -   -   -   -   -  requesting catrgories  
+					// or 
+					// if current activity and  -   -   -   -   -   -  requesting latest
 					
-					if ( ( in_array( $dub_location, get_field('dub_location') ) && get_field('activity') == $activity && $_GET['l'] ) 
-						|| (get_field('activity') == $activity && $_GET['c'] ) 
-						|| $requesting == 'latest' && get_field('latest' ) ) {
+					if ( 
+							( in_array( $dub_location, get_field('dub_location') ) && get_field('activity') == $activity && $_GET['l'] ) 
+							|| 
+							(get_field('activity') == $activity && $_GET['c'] ) 
+							|| 
+							(get_field('activity') == $activity && $requesting == 'latest' && get_field('latest' ) )
+						) {
 					?>
 					<div class="opportunities">
 
