@@ -107,11 +107,11 @@ $event_query = new WP_Query($events_args);
 				<div class="<?php echo 'vdc-' . $class;?>">
 					<h2 class="icon-blog-feed">Blog Feed <span> - Keep up to date</span></h2>
 					
-					<?php if ($parent_page == "vol") { ?> 
+					<?php if ($class == "vol") { ?> 
 						<a href="<?php echo esc_url(home_url('/newsblog/volunteering/')); ?>" 
 							class="link-arrow-pink">See All</a>
 					<?php } else { ?> 
-						<a href="<?php echo esc_url(home_url('/managing-volunteers/')); ?>" 
+						<a href="<?php echo esc_url(home_url('/newsblog/managing-volunteers/')); ?>" 
 							class="link-arrow-pink">See All</a>
 					<?php } ?>
 				</div>
@@ -207,7 +207,7 @@ $event_query = new WP_Query($events_args);
 				</div>
 				<div class="col-xs-4">
 					<div class="link-wrapper">
-						<?php if ($parent_page == "vol") { ?> 
+						<?php if ($class == "vol") { ?> 
 							<a href="<?php echo esc_url(home_url('/newsblog/volunteering/')); ?>" 
 								class="link-arrow-pink">See All</a>
 						<?php } else { ?> 
