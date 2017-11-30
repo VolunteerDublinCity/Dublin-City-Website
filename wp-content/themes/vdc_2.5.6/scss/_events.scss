@@ -14,3 +14,34 @@
 	margin-bottom: 3rem;
 }
 
+.date_component {
+	display: inline-block;
+	text-align: center;
+	background-color: $charcole;
+	padding: 1.3rem;
+	p {
+		margin-bottom: 0;
+
+		@include break(992px) {
+			span {
+				padding: 0;
+				line-height: 30px;
+			}
+		}
+	}
+
+	span {
+		color: $white;
+		text-align: center;
+		padding: 1rem 0;
+		font-size: 2.8rem;
+		font-weight: 300;
+	}
+	
+	.vol &, .parent-pageid-4 &{
+		background: $lightBlue;	
+	}
+	.org & , .parent-pageid-6 &{
+		background: $lightPurple;
+	}
+}

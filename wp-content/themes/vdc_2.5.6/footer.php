@@ -6,10 +6,10 @@
 	if(empty($parent)){
 		$parent = $post->ID;}
 
-	if($parent == 4){
+	if($parent == 4 || is_singular( 'volunteerevent' )){
 		$parent_page = "vol"; }
 
-	elseif($parent == 6){
+	elseif($parent == 6 || is_singular( 'organisationevent' )){
 		$parent_page = "org"; }
 
 	$page_id = $post->ID;

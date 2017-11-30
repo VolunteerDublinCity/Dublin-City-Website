@@ -180,6 +180,22 @@ function wb_count_posts_1() {
     return $data;
 }
 
+function getSection($parent){
+
+	if($parent == 4){
+		return "vol"; }
+
+	elseif($parent == 6){
+		return  "org"; }
+	
+	else{
+		return "null";
+	}
+	
+	// return $post->ID;
+}
+
+
 // add_action( 'rest_api_init', function () {
 //     register_rest_route( 'count-posts/v1', '/count', array(
 //         'methods' => 'GET',

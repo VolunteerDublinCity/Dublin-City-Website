@@ -70,3 +70,51 @@
 .clear_left{
 	clear: left;
 }
+
+
+
+
+
+
+
+
+// margins
+
+.mb0{
+	margin-bottom: 0;
+}
+
+
+//padding 
+.pl1-2{
+	padding-left: .5em
+}
+
+
+
+
+.v-align-p{
+	display: table;
+	
+	.v-align-child{
+		display: table-cell;
+		vertical-align: middle;
+		
+		&.v-align-top {
+			vertical-align: top;
+		}
+	}
+}
+
+.f_l{
+	float: left;
+}
+.f_r{
+	float: right;
+}
+
+
+
+.inline-block{
+	display: inline-block;
+}

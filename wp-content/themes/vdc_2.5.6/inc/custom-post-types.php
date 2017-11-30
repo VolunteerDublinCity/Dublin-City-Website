@@ -4,13 +4,39 @@ Organisation events, no categories
 */
 $vdc_org_events = new CPT(array(
 	'post_type_name' => 'orgevent',
-	'singular' => 'Org Event',
-	'plural' => 'Org Events',
+	'singular' => 'Org Event (old)',
+	'plural' => 'Org Events (old)',
 	'slug' => 'orgevent'
 ), array(
 	'supports'	=> array('title', 'editor', 'thumbnail'),
 	'menu_icon' => 'dashicons-calendar-alt'
 ));
+
+
+
+$vdc_org_even = new CPT(array(
+	'post_type_name' => 'organisationevent',
+	'singular' => 'Organisation Event',
+	'plural' => 'Organisation Events',
+	'slug' => 'organisationevent'
+), array(
+	'supports'	=> array('title', 'editor', 'thumbnail'),
+	'menu_icon' => 'dashicons-calendar-alt'
+));
+
+
+$vdc_vol_even = new CPT(array(
+	'post_type_name' => 'volunteerevent',
+	'singular' => 'Volunteer Event',
+	'plural' => 'Volunteer Events',
+	'slug' => 'volunteerevent'
+), array(
+	'supports'	=> array('title', 'editor', 'thumbnail'),
+	'menu_icon' => 'dashicons-calendar-alt'
+));
+
+
+
 // Org Categories
 // $vdc_org_events->register_taxonomy(array(
 //     'taxonomy_name' => 'orgcats',
@@ -24,8 +50,8 @@ Vol events, no categories
 */
 $vdc_vol_events = new CPT(array(
 	'post_type_name' => 'volevent',
-	'singular' => 'Vol Event',
-	'plural' => 'Vol Events',
+	'singular' => 'Vol Event (old)',
+	'plural' => 'Vol Events (old)',
 	'slug' => 'volevent'
 ), array(
 	'supports'	=> array('title', 'editor', 'thumbnail'),

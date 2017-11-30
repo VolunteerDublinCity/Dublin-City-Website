@@ -4,11 +4,12 @@ $parent = end(get_post_ancestors( $post ));
 if(empty($parent)){
 	$parent = $post->ID;
 }
-
+ // || is_singular( 'volunteerevent' )
 if($parent == 4){
 	$section = "vol"; }
 
-if($parent == 6){
+// || is_singular( 'organisationevent' )
+if($parent == 6 ){
 	$section = "org"; }
 
 ?>
