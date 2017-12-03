@@ -12,13 +12,17 @@
 
 <?php 
 	$args = array(
-		'post_type' => 'staff',
-		'posts_per_page' => -1,
-		'tax_query' => array(
+		'post_type'			=> 'staff',
+		'posts_per_page'	=> -1,
+		'meta_key'			=> 'priority',
+		'orderby'			=> 'meta_value',
+		'order'				=> 'ASC',
+		
+		'tax_query'			=> array(
 			array(
-				'taxonomy' => 'role',
-				'field'	=> 'slug',
-				'terms'	=> array('staff', 'volunteer'),
+				'taxonomy'	=> 'role',
+				'field'		=> 'slug',
+				'terms'		=> array('staff', 'volunteer'),
 			)
 		)
 	);
