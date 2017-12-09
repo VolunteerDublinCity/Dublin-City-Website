@@ -58,11 +58,27 @@
 			<?php wp_reset_postdata(); ?>
 		
 		</div>
-	<?php wbstarter_paging_nav(); ?>
+
+		<?php wbstarter_paging_nav(); ?>
+	</div>
+
+
+
+	<section class="container pb2 pt2">
+		<?php //get_template_part( 'template-parts/tags', 'none' ); ?>
+		<h2>Tags</h2>
+		<hr>
+		<div class="tag_cloud">
+			<?php wp_tag_cloud('smallest=1&largest=1&unit=em'); ?>
+		</div>
+	</section>
+
 	<?php else : ?>
 
 		<?php get_template_part( 'template-parts/content', 'none' ); ?>
 
 	</div>
 	<?php endif; ?>
+	
+
 <?php get_footer(); ?>
