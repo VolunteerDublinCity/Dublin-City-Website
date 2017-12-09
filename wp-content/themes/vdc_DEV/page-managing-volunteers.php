@@ -55,8 +55,9 @@
 			<?php $i++; endwhile; ?>
 			<?php wp_reset_postdata(); ?>
 		
+	</div>
+	<div class="container">
 		<?php wbstarter_paging_nav(); ?>
-
 	</div>
 
 
