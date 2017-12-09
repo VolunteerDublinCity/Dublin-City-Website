@@ -49,6 +49,28 @@
 
 
 
+
+
+.tag_cloud{
+	a{
+		display: block;
+		padding: .25em .5em;
+		margin: .25em;
+		float: left;
+		background-color: $grey;
+		border: 1px solid $lightBlue;
+
+		&:hover, &:focus{
+			background-color: $grey;
+			border-color: $blue;
+		}
+	}
+}
+
+
+
+
+
 // make background images cover their element
 .bck_img{
 	background-position: center center;
@@ -86,8 +108,17 @@
 
 
 //padding 
+
+.pt2{
+	padding-top: 2em;
+}
+
 .pl1-2{
 	padding-left: .5em
+}
+
+.pb2{
+	padding-bottom: 2em;
 }
 
 

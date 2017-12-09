@@ -1,29 +1,13 @@
 <?php get_template_part( 'template-parts/include', 'header' ); ?>
-	<?php 
-		$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
-		$args = array(
-		  'posts_per_page' => 9,
-		  'paged'          => $paged,
-		  'meta_query' => array(
-				array(
-					'key' => 'post_type_gen',
-					'compare' => '==',
-					'value' => '1'
-				)
-			)
-		);
-
-		$query = new WP_Query( $args ); 
-		$count = $query->post_count;
-		if ( $query->have_posts() ) : 
-	?>
+	<?php if ( have_posts() ) : ?>
 
 	<div class="container vdc-blog-overview">
-		<h1 class="text-center">News</h1>
+		<h1 class="text-center">Posts Tagged  <?php single_tag_title(); ?></h1>
 		<hr style="max-width: 80%;">
 		<div class="row">
 			
-			<?php $i = 1; while ( $query->have_posts() ) : $query->the_post();?>	
+			
+			<?php $i = 1; while ( have_posts() ) : the_post();?>	
 
 				<div class="col-sm-6 col-md-4">
 					<a href="<?php echo esc_url( get_permalink() ); ?>" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -72,5 +56,5 @@
 		<?php get_template_part( 'template-parts/content', 'none' ); ?>
 
 	</div>
-	<?php endif; ?>
+	<?php  endif; ?>
 <?php get_footer(); ?>
