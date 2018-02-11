@@ -66,7 +66,7 @@ $event_query = new WP_Query($events_args);
 		<div class="row">
 			<div class="col-sm-6 <?php echo ' vdc-' . $class . '-events';?>">
 				<div class="<?php echo 'vdc-' . $class;?>">
-					<h2 class="icon-event-calendar">Event Calender</h2>
+					<h2 class="icon-event-calendar">Event Calendar</h2>
 					<a href="<?php echo $event_link ?>" class="link-arrow-pink">See All</a>
 				</div>
 				 <?php if ( $event_query->have_posts() ): ?>
@@ -149,7 +149,7 @@ $event_query = new WP_Query($events_args);
 		
 			<div class="row">
 				<div class="col-xs-8">
-					<h2 class="icon-event-calendar"> Event Calender</h2>
+					<h2 class="icon-event-calendar">Event Calendar</h2>
 				</div>
 				<div class="col-xs-4">
 					<div class="link-wrapper">
