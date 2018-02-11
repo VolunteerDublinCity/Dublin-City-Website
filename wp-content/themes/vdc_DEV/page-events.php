@@ -35,9 +35,18 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 			<?php
 				$rawDate = get_field('date', false, false);
 				$date = new DateTime($rawDate);
+				
 			?>
 			
-			<div class="row item">
+			<? /* if ($date->format('Ymd') > $today){ ?> is future <? }*/ ?>
+			<? /* if ($date->format('Ymd') == $today){ ?> is present <? } */ ?>
+			<? /* if ($date->format('Ymd') < $today){ ?> is past <? } */?>
+			
+			<div class="row item relative <? if ($date->format('Ymd') < $today){ ?> past_event <? } ?>">
+				<? if ($date->format('Ymd') < $today){ ?>
+					<div class="ribbon"><span>Past Event</span></div>
+				<? } ?>
+				
 				<div class="col-md-4">
 					<figure>
 						<a href="<?php echo the_permalink(); ?>" class="link-arrow-pink">See more</a>
