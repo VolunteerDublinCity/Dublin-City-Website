@@ -2,15 +2,6 @@
 /* 
 Organisation events, no categories
 */
-$vdc_org_events = new CPT(array(
-	'post_type_name' => 'orgevent',
-	'singular' => 'Org Event (old)',
-	'plural' => 'Org Events (old)',
-	'slug' => 'orgevent'
-), array(
-	'supports'	=> array('title', 'editor', 'thumbnail'),
-	'menu_icon' => 'dashicons-calendar-alt'
-));
 
 
 
@@ -37,35 +28,6 @@ $vdc_vol_even = new CPT(array(
 
 
 
-// Org Categories
-// $vdc_org_events->register_taxonomy(array(
-//     'taxonomy_name' => 'orgcats',
-//     'singular' => 'Category',
-//     'plural' => 'Categories',
-//     'slug' => 'orgcats'
-// ));
-
-/* 
-Vol events, no categories
-*/
-$vdc_vol_events = new CPT(array(
-	'post_type_name' => 'volevent',
-	'singular' => 'Vol Event (old)',
-	'plural' => 'Vol Events (old)',
-	'slug' => 'volevent'
-), array(
-	'supports'	=> array('title', 'editor', 'thumbnail'),
-	'menu_icon' => 'dashicons-calendar-alt'
-));
-// Vol Categories
-$vdc_vol_events->register_taxonomy(array(
-    'taxonomy_name' => 'volcats',
-    'singular' => 'Category',
-    'plural' => 'Categories',
-    'has_archive' => true,
-    // 'hierarchical' => true,
-    'slug' => 'volcats'
-));
 
 
 
@@ -109,20 +71,6 @@ $args = array(
 
 $our_people->register_taxonomy('role', $args);
 
-// Managing Volunteers CPT
-$labels = array(
-	'post_type_name' => 'managing-volunteers',
-    	'singular' => 'Manage Volunteer (old)',
-    	'plural' => 'Managing Volunteers (old)',
-    	'slug' => 'managing-volunteers (old)'
-);
-$managing_volunteers = new CPT($labels, array(
-	'supports'	=> array('title', 'editor', 'thumbnail'),
-	'menu_icon' => 'dashicons-universal-access',
-	'capability_type'    => 'post',
-	'has_archive'        => true
-));
-
 // Toolkit CPT
 $labels = array(
 	'post_type_name' => 'toolkit',
@@ -148,4 +96,62 @@ $labels = array(
 );
 $vmattachments = new CPT($labels, array(
 	'menu_icon' => 'dashicons-media-document',
+));
+
+
+
+
+
+
+$vdc_org_events = new CPT(array(
+	'post_type_name' => 'orgevent',
+	'singular' => '(old) Org Event ',
+	'plural' => '(old) Org Events ',
+	'slug' => 'orgevent'
+), array(
+	'supports'	=> array('title', 'editor', 'thumbnail'),
+	'menu_icon' => 'dashicons-calendar-alt'
+));
+// Org Categories
+// $vdc_org_events->register_taxonomy(array(
+//     'taxonomy_name' => 'orgcats',
+//     'singular' => 'Category',
+//     'plural' => 'Categories',
+//     'slug' => 'orgcats'
+// ));
+
+/* 
+Vol events, no categories
+*/
+$vdc_vol_events = new CPT(array(
+	'post_type_name' => 'volevent',
+	'singular' => '(old) Vol Event ',
+	'plural' => '(old) Vol Events ',
+	'slug' => 'volevent'
+), array(
+	'supports'	=> array('title', 'editor', 'thumbnail'),
+	'menu_icon' => 'dashicons-calendar-alt'
+));
+// Vol Categories
+$vdc_vol_events->register_taxonomy(array(
+    'taxonomy_name' => 'volcats',
+    'singular' => 'Category',
+    'plural' => 'Categories',
+    'has_archive' => true,
+    // 'hierarchical' => true,
+    'slug' => 'volcats'
+));
+
+// Managing Volunteers CPT
+$labels = array(
+	'post_type_name' => 'managing-volunteers',
+    	'singular' => '(old) Manage Volunteer ',
+    	'plural' => '(old) Managing Volunteers ',
+    	'slug' => 'managing-volunteers (old)'
+);
+$managing_volunteers = new CPT($labels, array(
+	'supports'	=> array('title', 'editor', 'thumbnail'),
+	'menu_icon' => 'dashicons-universal-access',
+	'capability_type'    => 'post',
+	'has_archive'        => true
 ));

@@ -61,15 +61,10 @@
 	</div>
 
 
-
 	<section class="container pb2 pt2">
-		<?php //get_template_part( 'template-parts/tags', 'none' ); ?>
-		<h2>Tags</h2>
-		<hr>
-		<div class="tag_cloud">
-			<?php wp_tag_cloud('smallest=1&largest=1&unit=em'); ?>
-		</div>
+		<?php get_template_part( 'template-parts/tag-cloud', 'none' ); ?>
 	</section>
+	
 
 	<?php else : ?>
 

@@ -13,7 +13,7 @@
 		<?php echo the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 
 		<div class="vdc-single-post-date">
-			<?php the_date('F j, Y'); ?>
+			Published <span class="i"><?php the_date('F jS, Y'); ?></span>
 		</div>
 		
 		<?php if ( has_post_thumbnail() ) : ?>
@@ -21,6 +21,8 @@
 				<?php the_post_thumbnail(); ?>
 			</figure>
 		<?php endif; ?>
+		
+		<?php the_tags( 'Tagged: ', ' • ', '<br />' ); ?><br>
 
 	</header><!-- .entry-header -->
 	<div class="content">
