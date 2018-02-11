@@ -1,0 +1,67 @@
+/*
+Theme Name: VDC_2.5.12
+Author: Duncan Mckenna
+Author URI: http://volunteerdublincity.ie/
+Version: 2.5.12
+Text Domain: vdc
+*/
+
+
+/*
+
+2.5.12 Change
+	commit 092b69910a5e9321f94d9839cec0ae4c43edfc87
+	Author: mckendu <duncan.mckenna@aerlingus.com>
+	    labeled past events as such with CSS ribon
+
+	commit 09639cad42f125fcbe830264bf656c43956512ad
+	Author: mckendu <duncan.mckenna@aerlingus.com>
+	    fixed events on homepages to display soonest event
+
+	commit 38b7309a7369593f2aa8fdb55f76a2c6014b33a9
+	Author: mckendu <duncan.mckenna@aerlingus.com>
+	    updated order of old CPTs
+
+	commit e851c5d9dbb31e0207d30a97ffa7192924868f6b
+	Author: mckendu <duncan.mckenna@aerlingus.com>
+	    fixed typo
+
+	commit 02bf653e8cf4d40186acf8078a1d498455260621
+	Author: mckendu <duncan.mckenna@aerlingus.com>
+	    added tags to posts
+    
+    
+    
+
+2.5.11 Change
+- fixed overflow issue
+
+2.5.10 Change
+- added tag archive
+
+2.5.9 Change
+- added priority option to staff members
+
+2.5.8 Change
+- urgent fix for link to blog
+
+2.5.7 Change
+- Updated events 
+
+
+2.5.6 Change
+- fixed opprtunities duplication issue
+
+
+2.5.5 Change
+- final part of post type amilgamiation update
+- there is now one post type that can be used for the /vol/, /org/ or regular news sections
+
+
+2.5.4 Change
+- first part of post type amilgamiation update
+
+
+2.5.3 Change
+- includes patch fix for latest opprtunities
+*/
