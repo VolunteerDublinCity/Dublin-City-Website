@@ -9,7 +9,7 @@ $event = ( ( is_page(4) ) ? 'volunteerevent' : 'organisationevent' );
 if ($class == "org") {
 	$event_link = esc_url( home_url('/org/event-calendar/') );
 }  elseif ($class == "vol"){
-	$event_link = esc_url( home_url('/vol/events/for-everyone/') );
+	$event_link = esc_url( home_url('/vol/events/') );
 }
 
 // get events after today 
@@ -18,6 +18,10 @@ $today = date('Ymd');
 $events_args = array(
 	'post_type' => $event, 
 	'posts_per_page' => 2,
+	
+	'order' => 'ASC',
+	// 'meta_value' => 'date',
+	// 'orderby' => 'meta_key',
 	
 	'meta_query' => array(
 		array(
