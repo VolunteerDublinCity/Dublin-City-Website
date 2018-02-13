@@ -1,13 +1,21 @@
 /*
-Theme Name: VDC_2.5.12
+Theme Name: VDC_2.5.13
 Author: Duncan Mckenna
 Author URI: http://volunteerdublincity.ie/
-Version: 2.5.12
+Version: 2.5.13
 Text Domain: vdc
 */
 
 
 /*
+
+2.5.13 Change
+
+commit 4f07497377e36f81d7eea6bd2c96ab58d4317fc4
+Author: mckendu <duncan.mckenna@aerlingus.com>
+Date:   Tue Feb 13 17:42:12 2018 +0000
+    changed date display in events listing
+
 
 2.5.12 Change
 	commit 092b69910a5e9321f94d9839cec0ae4c43edfc87
