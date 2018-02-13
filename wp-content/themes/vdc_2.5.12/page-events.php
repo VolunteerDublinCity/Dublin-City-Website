@@ -55,23 +55,15 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 				</div>
 				<div class="col-md-8 v-align-p">
 					<a href="<?php echo the_permalink(); ?>" class="title-link">
-						<h2 class="inline-block v-align-child mb0 pl1-2">
+						<h2 class="inline-block v-align-child mb0">
 							<?php the_title(); ?>
 						</h2>
 					</a>
 					
 					<hr>
-					<p>
-						<i><strong>
-							<?php echo $date->format('l');?>
-							the 
-							<?php echo $date->format('j');?><?php echo $date->format('S');?>
-							of 
-							<?php echo $date->format('M');?>, 
-							<?php echo $date->format('o');?>
-						</strong>
-						</i>
-					</p>
+					<p><strong>
+						<?php echo $date->format('l jS F o');?>
+					</strong></p>
 					
 					<div><p><?php echo wbstarter_excerpt(30); ?></p></div>
 				</div>
