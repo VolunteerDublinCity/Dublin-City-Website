@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 * Template Name: Events
 */
@@ -11,25 +11,25 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 				'post_type'			=> 'opp',
 				'ignore_sticky_posts' => 1
 			);
-			
+
 			$loop = new WP_Query( $args );
-			
-			
+
+
 			$opp_categories = array();
-			while ( $loop->have_posts() ) : $loop->the_post(); 
+			while ( $loop->have_posts() ) : $loop->the_post();
 				array_push($opp_categories, get_field_object("opp_category"));
-			endwhile; 
-			
+			endwhile;
+
 			$dub_locations = array();
-			while ( $loop->have_posts() ) : $loop->the_post(); 
+			while ( $loop->have_posts() ) : $loop->the_post();
 				array_push($dub_locations, get_field_object("dub_location"));
-			endwhile; 
-			
-			
-			$opp_category = $_GET['c']; 
-			
-			$dub_location = $_GET['l']; 
-			
+			endwhile;
+
+
+			$opp_category = $_GET['c'];
+
+			$dub_location = $_GET['l'];
+
 			if ($_GET['c']) {
 				$requesting = 'cat';
 			} elseif ($_GET['l']) {
@@ -39,19 +39,19 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 			} else{
 				$requesting = 'latest';
 			}
-			
-			
-			
+
+
+
 		if ($opp_category){
 			$current_opp_activity = $opp_categories[0]["choices"][$opp_category];
-			
+
 			$args = array(
 				'numberposts'		=> -1,
 				'post_type'			=> 'opp',
 				'ignore_sticky_posts' => 1,
 				'orderby'			=> 'activity',
 				'order'				=> 'ASC',
-				
+
 				'meta_query'		=> array(
 					array(
 						'key'		=> 'opp_category',
@@ -62,7 +62,7 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 			);
 		} elseif ($dub_location) {
 			$current_opp_activity = $dub_locations[0]["choices"][$dub_location];
-			
+
 			$args = array(
 				'numberposts'		=> -1,
 				'post_type'			=> 'opp',
@@ -72,58 +72,58 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 			);
 		}  elseif ($requesting == 'date') {
 			$current_opp_activity = "Date";
-		} else { 
+		} else {
 			$current_opp_activity = "Latest";
-			
+
 			$args = array(
 				'numberposts'		=> -1,
 				'post_type'			=> 'opp',
 				'ignore_sticky_posts' => 1,
 				'orderby'			=> 'activity',
 				'order'				=> 'ASC',
-				
+
 				// don't need this as it is calculated in the loop
 				// 'meta_key'		=> 'latest',
 				// 'meta_value'	=> 'true'
 			);
 		}
-		
+
 		$posts = get_posts($args);
-		
+
 		$activities = array();
-		foreach( $posts as $post ){ 
+		foreach( $posts as $post ){
 			if ($dub_location) {
-				if ( in_array( 'dub1', get_field('dub_location') ) ) { 
+				if ( in_array( 'dub1', get_field('dub_location') ) ) {
 					array_push($activities, get_field("activity"));
 				}
 			} else {
 				array_push($activities, get_field("activity"));
-			} 
+			}
 		}
 		$activities = array_unique($activities);
 		asort($activities);
-		
+
 		?>
-		
-		
-		<? // because "50+ Opportunities" dosen't sound right 
+
+
+		<? // because "50+ Opportunities" dosen't sound right
 		if ($current_opp_activity === '50+'){ ?>
 			<h1 class="text-center blue">Opportunities <? echo $current_opp_activity; ?></h1>
 		<? } else { ?>
 			<h1 class="text-center blue"><? echo $current_opp_activity; ?> Opportunities</h1>
 		<? } ?>
-		
-		
+
+
 		<section class="opportunities">
-		
-		<?php 
-		
+
+		<?php
+
 		if( $posts ): ?>
-			
-			<?php  
-			
-			foreach( $activities as $activity ){ 
-				if (($requesting == 'loc')) { 
+
+			<?php
+
+			foreach( $activities as $activity ){
+				if (($requesting == 'loc')) {
 					$activity_test = false;
 					foreach( $posts as $post ) {
 						if ( in_array( $dub_location, get_field('dub_location') ) && get_field('activity') == $activity ) {
@@ -131,44 +131,44 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 						}
 					}
 				}
-				
+
 				elseif ($activity_test == true || $requesting == 'cat') {
 				// else {
 				?>
 					<span class="icon icon-<? echo $activity; ?> opportunity-title-icon"></span>
 					<h2 class="opportunity-title line-after">
 						<span>
-						<? 
+						<?
 							$field = get_field_object('field_58d3cc32553ef');
 							$value = get_field('activity');
 							echo $field['choices'][ $activity ];
 						?></span>
 					</h2>
-				
+
 			<?	}
-			
-				foreach( $posts as $post ): 
-					
+
+				foreach( $posts as $post ):
+
 					setup_postdata( $post );
-					
+
 					// if the current location and curret activity and requesting locations
-					// or 
-					// if curret activity and   -   -   -   -   -   -  requesting catrgories  
-					// or 
+					// or
+					// if curret activity and   -   -   -   -   -   -  requesting catrgories
+					// or
 					// if current activity and  -   -   -   -   -   -  requesting latest
-					
-					if ( 
-							( in_array( $dub_location, get_field('dub_location') ) && get_field('activity') == $activity && $_GET['l'] ) 
-							|| 
-							(get_field('activity') == $activity && $_GET['c'] ) 
-							|| 
+
+					if (
+							( in_array( $dub_location, get_field('dub_location') ) && get_field('activity') == $activity && $_GET['l'] )
+							||
+							(get_field('activity') == $activity && $_GET['c'] )
+							||
 							(get_field('activity') == $activity && $requesting == 'latest' && get_field('latest' ) )
 						) {
 					?>
 					<div class="opportunities">
 
 					<div class="opps-item">
-						
+
 						<? if (is_user_logged_in()) { ?>
 							<div class="dev_message opps_edit">
 								<a href="<? echo get_edit_post_link($id) ?>">edit <? the_title(); ?></a>
@@ -176,7 +176,7 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 						<? } ?>
 						<div>
 							<div class="row opportunity-item">
-								
+
 								<div class="col-xs-6 col-md-3 sub-item">
 									<h5>Opportunity</h5>
 									<p>
@@ -186,11 +186,11 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 								<div class="col-xs-6 col-md-2 sub-item">
 									<? $opp_category = get_field('opp_category');
 										foreach ($opp_category as $key => $value) { ?>
-										<div class="col-xs-6 col-sm-3 col-md-6 opp_out"> 
+										<div class="col-xs-6 col-sm-3 col-md-6 opp_out">
 											<a class="opp_category" aira-label="<? echo $value;?>"
 												href="<? echo home_url(add_query_arg(array(),$wp->request)); ?>?c=<? echo $value; ?>">
-												<i class="opp_tooltip icon icon-<? echo $value; ?> " 
-													aria-hidden="true" role="presentation" 
+												<i class="opp_tooltip icon icon-<? echo $value; ?> "
+													aria-hidden="true" role="presentation"
 													data-title="<? echo $value;?>"></i>
 											</a>
 										</div>
@@ -219,20 +219,20 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 							</div>
 						</div>
 					</div>
-				
-				<?php 
-				} // if it's the relevant activity 
+
+				<?php
+				} // if it's the relevant activity
 				endforeach; // posts
 				} // activites loop
 			?>
-			
-			
+
+
 			<?php wp_reset_postdata(); ?>
-		
+
 		<?php endif; ?>
-		
-		
-		
+
+
+
 		<? if ($opp_category == 'location') { ?>
 			<div class="container vdc-box-links">
 				<a href="<? echo get_page_link(2991); ?>/?l=dub1" class="vdc-get-started-link vdc-get-started-link-blue vdc-can-i-volunteer-link-box white t_1-25">
@@ -271,15 +271,15 @@ get_template_part( 'template-parts/include', 'header' ); ?>
 			</div>
 		<? } ?>
 		<?php if ($requesting == 'date') { ?>
-			<calendar></calendar>
-			<opps-list></opps-list>
+			<calendar class="loading"></calendar>
+			<opps-list class="loading"></opps-list>
 		<?php } ?>
 		</div>
 	</section>
-		
-	
+
+
 	<?php wp_reset_postdata(); ?>
-	
+
 </div>
 
 <?php get_footer(); ?>

@@ -4,11 +4,11 @@
       <div class="col-xs-6 col-md-3 sub-item">
         <h5>Opportunity</h5>
         <p>
-          {{opp.title}}
+          {{opp.title.rendered}}
         </p>
       </div>
       <div class="col-xs-6 col-md-2 sub-item">
-        <div ng-repeat="category in opp.opp_categories track by $index"
+        <div ng-repeat="category in opp.acf.opp_category track by $index"
           class="col-xs-6 col-sm-3 col-md-6 opp_out">
           <a class="opp_category"
             aira-label="{{category}}"
@@ -25,25 +25,25 @@
       <div class="col-xs-6 col-md-3 sub-item">
         <h5>Organisation</h5>
         <p>
-          {{opp.organisation}}
+          {{opp.acf.organisation}}
         </p>
       </div>
       <div class="col-xs-6 col-md-3 sub-item location">
         <h5>Location</h5>
-        <a ng-if="opp.location.lat !== '' && opp.location.lng !== ''"
-          href="http://maps.google.com/maps?z=12&amp;t=m&amp;q=loc:{{opp.location.lat}}+{{opp.location.lng}}"
+        <a ng-if="opp.acf.location.lat !== '' && opp.acf.location.lng !== ''"
+          href="http://maps.google.com/maps?z=12&amp;t=m&amp;q=loc:{{opp.acf.location.lat}}+{{opp.acf.location.lng}}"
           target="_blank">
           <span>
-            {{opp.location.address}}
+            {{opp.acf.location.address}}
           </span>
         </a>
-        <span ng-if="!(opp.location.lat !== '' && opp.location.lng !== '')">
+        <span ng-if="!(opp.acf.location.lat !== '' && opp.acf.location.lng !== '')">
           {{opp.location.address}}
         </span>
       </div>
       <div class="col-xs-12 col-md-1 sub-item view">
-        <a ng-if="opp.ivol_link !== ''"
-          href="{{opp.ivol_link}}"
+        <a ng-if="opp.acf.ivol_link !== ''"
+          href="{{opp.acf.ivol_link}}"
           target="_blank"
           aira-label="Opens new window"
           title="Opens new window">

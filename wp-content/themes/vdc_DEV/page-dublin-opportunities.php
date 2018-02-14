@@ -4,7 +4,7 @@
 		<h2><?php the_field('vol_or_org'); ?></h2>
 	<?php endif; ?>
 	<div class="view-container">
-    <calendar></calendar>
-    <opps-list></opps-list>
+    <calendar class="loading"></calendar>
+    <opps-list class="loading"></opps-list>
   </div>
 <?php get_footer(); ?>

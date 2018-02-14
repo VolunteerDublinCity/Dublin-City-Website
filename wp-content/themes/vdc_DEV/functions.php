@@ -471,6 +471,11 @@ class Opps_Posts_Controller extends WP_REST_Controller {
     }
 
     // Checks if field is set in schema.
+    if ( isset( $schema['properties']['custom_fields']['location_text'] ) ) {
+      $post_data['location_text'] = get_post_meta($post->ID,'location_text')[0];
+    }
+
+    // Checks if field is set in schema.
     if ( isset( $schema['properties']['custom_fields']['ivol_link'] ) ) {
       $post_data['ivol_link'] = get_post_meta($post->ID,'ivol_link')[0];
     }
@@ -554,6 +559,12 @@ class Opps_Posts_Controller extends WP_REST_Controller {
           'location' => array(
             'description'  => esc_html__( 'The location of that opportunity.' ),
             'type'         => 'object',
+            'context'      => array( 'view' ),
+            'readonly'     => true,
+          ),
+          'location_text' => array(
+            'description'  => esc_html__( 'The text for the location of that opportunity.' ),
+            'type'         => 'string',
             'context'      => array( 'view' ),
             'readonly'     => true,
           ),

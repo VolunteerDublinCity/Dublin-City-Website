@@ -51,10 +51,15 @@ angular.module('opps')
    * @return {array} - the opportunities for that particular date
    */
   function getPostsOnDate(opps, date) {
+    var formatedDate = $filter('date')(date, 'yyyy/MM/dd');
+
     return _.filter(opps, function(opp){
-      var oppFromDate = new Date(Date.parse(opp.from_date));
-      var oppToDate = new Date(Date.parse(opp.to_date));
-      return date <= oppToDate && date >= oppFromDate;
+      var oppDates = opp.acf && opp.acf.dates || [];
+      var dateFound = _.find(oppDates, function(oppDate) {
+        return formatedDate === $filter('date')(new Date(oppDate.date), 'yyyy/MM/dd');
+      });
+
+      return !_.isUndefined(dateFound);
     });
   }
 

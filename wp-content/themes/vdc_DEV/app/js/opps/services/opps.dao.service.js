@@ -20,11 +20,12 @@ angular.module('opps')
   function getPosts(request) {
 
     // NOT OPTIMISED VERSION
-    // return $http.get(constants.api_url + 'opps-api', {'params': request})
-    //   .then(getPostsSuccess, getPostsError);
+    var url = constants.api_url + 'opps-api';
 
     // CUSTOM VERSION (Optimised)
-    return $http.get(constants.api_url + 'opps-api-custom', {'params': request})
+    // var url = constants.api_url + 'opps-api-custom';
+
+    return $http.get(url, {'params': request})
       .then(getPostsSuccess, getPostsError);
   }
 

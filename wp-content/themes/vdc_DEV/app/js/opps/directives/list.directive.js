@@ -31,8 +31,12 @@ angular.module('opps')
 
       $rootScope.$on('oppsLoaded', onOppsLoaded);
     },
-    link: function(){
+    link: function(scope, elm){
+      function removeLoader() {
+        elm.removeClass('loading');
+      }
 
+      $rootScope.$on('oppsLoaded', removeLoader);
     }
   };
 });

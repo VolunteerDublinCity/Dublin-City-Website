@@ -50,22 +50,22 @@ angular.module('calendar')
           var dateToCheck = day.date;
 
           // NOT OPTIMISED VERSION
-          // _.each($scope.opps, function(opp){
-          //   _.each(opp.acf.dates, function(date){
-          //     if (dateStrToDate(date.date).getTime() === dateToCheck.getTime()) {
-          //       opps.push(opp);
-          //     }
-          //   });
-          // });
-
-          // CUSTOM VERSION (Optimised)
           _.each($scope.opps, function(opp){
-            _.each(opp.dates, function(date){
-              if (dateStrToDate(date).getTime() === dateToCheck.getTime()) {
+            _.each(opp.acf.dates, function(date){
+              if (dateStrToDate(date.date).getTime() === dateToCheck.getTime()) {
                 opps.push(opp);
               }
             });
           });
+
+          // CUSTOM VERSION (Optimised)
+          // _.each($scope.opps, function(opp){
+          //   _.each(opp.dates, function(date){
+          //     if (dateStrToDate(date).getTime() === dateToCheck.getTime()) {
+          //       opps.push(opp);
+          //     }
+          //   });
+          // });
 
           day.opps = opps;
         });
@@ -169,8 +169,13 @@ angular.module('calendar')
       $scope.previous = previousMonth;
       $scope.unselectAllDays = unselectAllDays;
     },
-    link: function link(){
+    link: function link(scope, elm){
 
+      function removeLoader() {
+        elm.removeClass('loading');
+      }
+
+      $rootScope.$on('oppsLoaded', removeLoader);
     }
   };
 });
