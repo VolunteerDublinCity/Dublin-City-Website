@@ -1,6 +1,6 @@
 # Dublin-City-Website
 
-#Setup
+# Setup
 1. Request a backup  of the database.
 2. Install MAMP
 3. Set document root to your preference
@@ -12,12 +12,12 @@
 9. Create a new user for local development in phpMyAdmin in the new database, within the table afpa_users, with all rights.
 10. Verify that the site works with at http://localhost:8888
 
-#Styles
+# Styles
 The styles of the site are written in Sass, specifically the SCSS format. 
 
 [How to install Sass](http://sass-lang.com/install)
 
 Run with *Compass watch* from the theme root.
 
-#Questions
+# Questions
 Any questions? Get in touch with [Duncan-Mckenna](https://github.com/Duncan-Mckenna)
