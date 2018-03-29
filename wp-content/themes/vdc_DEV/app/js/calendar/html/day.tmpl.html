@@ -1,0 +1,17 @@
+<span class="day"
+  ng-click="select(day)"
+  aria-role="button"
+  tabindex="{{day.opps.length === 0 ? -1 : 0}}"
+  ng-class="{
+    'today': day.isToday,
+    'different-month': day.isCurrentMonth === false,
+    'selected': day.isSelected,
+    'underline opps_available ': day.opps.length > 0,
+    'opps_unavailable ': day.opps.length === 0
+  }"
+  >
+  {{day.number}}
+  <span class="opps_number" ng-if="day.opps.length > 0">{{day.opps.length}}
+  	<!-- opp<span ng-if="day.opps.length > 1">s</span> -->
+  </span>
+</span>

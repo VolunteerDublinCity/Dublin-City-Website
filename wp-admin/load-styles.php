@@ -14,10 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'WPINC', 'wp-includes' );
 
-require( ABSPATH . 'wp-admin/includes/noop.php' );
-require( ABSPATH . WPINC . '/script-loader.php' );
-require( ABSPATH . WPINC . '/version.php' );
-
 $load = $_GET['load'];
 if ( is_array( $load ) ) {
 	$load = implode( '', $load );
@@ -27,6 +23,10 @@ $load = array_unique( explode( ',', $load ) );
 
 if ( empty($load) )
 	exit;
+
+require( ABSPATH . 'wp-admin/includes/noop.php' );
+require( ABSPATH . WPINC . '/script-loader.php' );
+require( ABSPATH . WPINC . '/version.php' );
 
 $compress = ( isset($_GET['c']) && $_GET['c'] );
 $force_gzip = ( $compress && 'gzip' == $_GET['c'] );
@@ -45,6 +45,11 @@ if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && stripslashes( $_SERVER['HTTP_IF_
 	header( "$protocol 304 Not Modified" );
 	exit();
 }
+
+header("Etag: $wp_version");
+header('Content-Type: text/css; charset=UTF-8');
+header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
+header("Cache-Control: public, max-age=$expires_offset");
 
 foreach ( $load as $handle ) {
 	if ( !array_key_exists($handle, $wp_styles->registered) )
@@ -75,10 +80,7 @@ foreach ( $load as $handle ) {
 	}
 }
 
-header("Etag: $wp_version");
-header('Content-Type: text/css; charset=UTF-8');
-header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
-header("Cache-Control: public, max-age=$expires_offset");
+
 
 if ( $compress && ! ini_get('zlib.output_compression') && 'ob_gzhandler' != ini_get('output_handler') && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 	header('Vary: Accept-Encoding'); // Handle proxies

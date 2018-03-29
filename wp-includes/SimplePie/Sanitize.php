@@ -390,7 +390,7 @@ class SimplePie_Sanitize
 			// Note: No protection if $html contains a stray </div>!
 			$html = '<div>' . $html . '</div>';
 			$ret .= '<!DOCTYPE html>';
-			$content_type = 'text/html';
+			$content_type = 'text/css';
 		}
 		else
 		{

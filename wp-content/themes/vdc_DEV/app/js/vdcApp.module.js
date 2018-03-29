@@ -1,0 +1,1 @@
+angular.module('vdcApp', ['common', 'calendar', 'opps']);

@@ -39,7 +39,7 @@ if($parent == 6 ){
 			ga('newTracker.send', 'pageview');
 		</script>
 
-		<? // show the ADMIN info
+		<?php  // show the ADMIN info
 			$current_user = wp_get_current_user();
 
 			$whitelist = array(
@@ -54,27 +54,27 @@ if($parent == 6 ){
 			if (user_can( $current_user, 'administrator' )) { $WP_admin_loggedin = true; }
 
 			if($WP_admin_loggedin){ ?>
-				<link rel="stylesheet" type="text/css" href="<? echo get_stylesheet_directory_uri(). '/dev.css' ?>">
-			<? }
+				<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri(). '/dev.css' ?>">
+			<?php  }
 		?>
 
 		<?php wp_head(); ?>
 	</head>
 	<body <?php body_class('animated fadeIn'); ?>>
-		<? if($WP_admin_loggedin){ ?>
+		<?php  if($WP_admin_loggedin){ ?>
 			<div class="dev_message_container">
 				<div class="dev_message">
 					<p>
-						<? if($is_local){ ?>
+						<?php  if($is_local){ ?>
 							👍 local site
-						<? } else { ?>
+						<?php  } else { ?>
 							<span class="blink_me">🔴</span> LIVE SITE
-						<? }
-						if (user_can( $current_user, 'administrator' )) { ?>, logged in as <b>admin</b>, <?php edit_post_link('edit current page', '<span>', '</span>'); ?> <? } ?>
+						<?php  }
+						if (user_can( $current_user, 'administrator' )) { ?>, logged in as <b>admin</b>, <?php edit_post_link('edit current page', '<span>', '</span>'); ?> <?php } ?>
 					</p>
 				</div>
 			</div>
-		<? } ?>
+		<?php } ?>
 		<?php
 		// Vars
 			$bg_img_bkup = get_field('fall_back_background_image', 'options');
@@ -83,8 +83,8 @@ if($parent == 6 ){
 
 		<?php get_template_part( 'template-parts/nav/nav', 'mobile' ); ?>
 
-		<? if ( $post->ID == 6 ) { ?>
-		<? // show org homepage ?>
+		<?php if ( $post->ID == 6 ) { ?>
+		<?php  // show org homepage ?>
 
 			<!-- Page Header -->
 			<header id="org-home" style="background-size:cover;background-image:url('<?php echo ( !empty($bg_img) ? $bg_img : $bg_img_bkup['url']);?>')" data-img="<?php echo ( !empty($bg_img) ? $bg_img : $bg_img_bkup['url']);?>">
@@ -97,8 +97,8 @@ if($parent == 6 ){
 			</header>
 			<main>
 
-		<? } elseif ( $post->ID == 4 ) { ?>
-		<? // show vol homepage ?>
+		<?php } elseif ( $post->ID == 4 ) { ?>
+		<?php  // show vol homepage ?>
 
 			<!-- Page Header -->
 			<header id="vol-home" style="background-size:cover;background-image:url('<?php echo ( !empty($bg_img) ? $bg_img : $bg_img_bkup['url']);?>')" data-img="<?php echo ( !empty($bg_img) ? $bg_img : $bg_img_bkup['url']);?>">
@@ -112,11 +112,13 @@ if($parent == 6 ){
 
 			<main>
 
-		<? } else { ?>
+		<?php } else { ?>
 
 			<!-- Navigation -->
 			<?php get_template_part( 'template-parts/nav/nav', 'top' ); ?>
 			<main>
 
-		<? } ?>
+		<?php
+	  }
+	  ?>
 

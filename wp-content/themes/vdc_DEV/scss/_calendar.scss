@@ -49,10 +49,27 @@ calendar {
 			&.names {
 				color: $blue;
 			}
+			> div {
+				border-left: 4px solid blue;
+				
+				span {
+					&.day {
+						border-top: 1px solid $grey;
+						border-right: 1px solid $grey;
+					}
+				}
+				&:nth-last-child(1){
+					> span {
+						&.day {
+							border-right: 0;
+						}
+					}
+				}
+			}
 			span {
 				&.day {
 					float: left;
-					width: 14.28571429%;
+					width: 14.2857142857%;
 					box-sizing: border-box;
 					-moz-box-sizing: border-box;
 					text-align: center;
@@ -61,14 +78,25 @@ calendar {
 					display: inline-block;
 					vertical-align: middle;
 					background: white;
-					cursor: pointer;
 					color: lighten($black, 35%);
 					font-size: 2rem;
-					&.underline, &.test {
-						text-decoration: underline;
+					// margin: .2em .25%;
+					position: relative;
+					
+					
+					&.opps_available, &.test {
+						cursor: pointer;
 						position: relative;
 						background: rgba($grey, 0.5);
+						transition: all 0.5s ease;
 						color: black;
+						
+						&:hover, &:focus{
+							&:not(.selected):not(.today){
+								transition: all 0.1s ease;
+								background: $grey;
+							}
+						}
 					}
 					&.today {
 						background: lighten($pink, 20%);
@@ -78,6 +106,37 @@ calendar {
 						background: $pink;
 						color: white;
 					}
+					&.different-month{
+						color: #ccc
+					}
+					
+					.opps_number{
+						position: absolute;
+						top: 8px; 
+						right: 10px;
+						border-radius: 100%;
+						background-color: $pink;
+						border: 1px solid $pink;
+						width: 10px;
+						height: 10px;
+						font-size: .1em;
+						color: $pink;
+						transition: all 0.5s ease;
+						line-height: 1.5em;
+					}
+					
+						&:hover, &:focus, &.selected{
+							.opps_number{
+								transition: all 0.1s ease;
+								color: white;
+								font-size: 1em;
+								width: 32px;
+								height: 32px;
+							}
+						}
+						&.selected .opps_number{
+							border-color: white;
+						}
 				}
 			}
 		}

@@ -48,19 +48,19 @@ function wbstarter_setup() {
 	 */
 	add_theme_support( 'post-thumbnails' );
 	// set_post_thumbnail_size( 828, 360, true );
-	
+
 	add_theme_support('menus');
 	$theme_name = 'wbstarter';
 	// Main Menu
 	register_nav_menus( array(
 	    'general_top' 	=> __( 'General Top', '$theme_name' ),
 	    'vol_top'			=> __('Volunteer Top', '$theme_name'),
-	    'org_top'			=> __('Organisation Top', '$theme_name'), 
-	    'vol_footer'		=> __('Volunteer Footer', '$theme_name'), 
+	    'org_top'			=> __('Organisation Top', '$theme_name'),
+	    'vol_footer'		=> __('Volunteer Footer', '$theme_name'),
 	    'org_footer'		=> __('Organisation Footer', '$theme_name'),
 	    'gen_top_mob'	=> __('General Top Mob', '$theme_name'),
 	    'vol_mob'		=> __('Mobile Vol', '$theme_name'),
-	    'org_mob'		=> __('Mobile Org', '$theme_name')  
+	    'org_mob'		=> __('Mobile Org', '$theme_name')
 	) );
 
 	/*
@@ -94,7 +94,7 @@ function wbstarter_setup() {
 	    return $m;
 	}
 	add_filter( 'upload_mimes', 'wbstarter_custom_mtypes' );
-	
+
 	//Change Read More
 	function wbstarter_excerpt_more( $more ) {
 		return '...';
@@ -109,7 +109,7 @@ function wbstarter_setup() {
 	        $excerpt = implode(" ",$excerpt).'...';
 	      } else {
 	        $excerpt = implode(" ",$excerpt);
-	      } 
+	      }
 	      $excerpt = preg_replace('`\[[^\]]*\]`','',$excerpt);
 	      return $excerpt;
 	}
@@ -122,7 +122,7 @@ function wbstarter_setup() {
 	        $excerpt = implode(" ",$excerpt).'...';
 	      } else {
 	        $excerpt = implode(" ",$excerpt);
-	      } 
+	      }
 	      $excerpt = preg_replace('`\[[^\]]*\]`','',$excerpt);
 	      return $excerpt;
 	}
@@ -168,7 +168,7 @@ function wb_count_posts_1() {
         array_push( $post_types,  $post_type );
 
     }
-    // Get the count of each post type 
+    // Get the count of each post type
     foreach ($post_types as $post_type ) {
         // Push PT names to an array
         array_push( $count_posts,  wp_count_posts($post_type) );
@@ -187,11 +187,11 @@ function getSection($parent){
 
 	elseif($parent == 6){
 		return  "org"; }
-	
+
 	else{
 		return "null";
 	}
-	
+
 	// return $post->ID;
 }
 
@@ -204,6 +204,407 @@ function getSection($parent){
 // } );
 endif; // wbstarter_setup
 add_action( 'after_setup_theme', 'wbstarter_setup' );
+
+/*
+http://localhost/vdc/wp-json/wp/v2/opps-api-custom?&meta_query[0][key]=dates&meta_query[0][value][0]=2018-01-01&meta_query[0][value][1]=2018-01-31&meta_query[0][compare]=BETWEEN&meta_query[0][type]=DATE
+
+/wp-json/wp/v2/opps-api-custom?
+meta_query[0][key]=dates&
+meta_query[0][value][0]=2017-10-01&
+meta_query[0][value][1]=2017-11-31&
+meta_query[0][compare]=BETWEEN&
+meta_query[0][type]=DATE
+*/
+class Opps_Posts_Controller extends WP_REST_Controller {
+
+  // Here initialize our namespace and resource name.
+  public function __construct() {
+    $this->debug         = false;
+  	$this->version       = '2';
+    $this->namespace     = '/wp/v' . $this->version;
+    $this->resource_name = 'opps-api-custom';
+  }
+
+  public function validate_meta_query_param($param, $request, $key) {
+		return is_array( $param );
+	}
+
+  public function validate_id_param($param, $request, $key) {
+		return is_numeric( $param );
+	}
+
+  // API
+  // Register our routes.
+  public function register_routes() {
+    register_rest_route( $this->namespace, '/' . $this->resource_name, array(
+      array(
+        'methods'   => WP_REST_Server::READABLE,
+        'callback'  => array( $this, 'get_posts' ),
+        'permission_callback' => array( $this, 'get_posts_permissions_check' ),
+				'args'     => array(
+				  'meta_query' => array(
+		    		// 'required' => true,
+				    'validate_callback' => array( $this, 'validate_meta_query_param' )
+				  )
+				)
+      ),
+      'schema' => array( $this, 'get_post_schema' ),
+    ) );
+    register_rest_route( $this->namespace, '/' . $this->resource_name . '/(?P<id>[\d]+)', array(
+      array(
+        'methods'   => WP_REST_Server::READABLE,
+        'callback'  => array( $this, 'get_post' ),
+        'permission_callback' => array( $this, 'get_post_permissions_check' ),
+				'args'     => array(
+				  'id' => array(
+		    		// 'required' => true,
+				    'validate_callback' => array( $this, 'validate_id_param' )
+				  )
+				)
+      ),
+      // Register our schema callback.
+      'schema' => array( $this, 'get_post_schema' ),
+    ) );
+  }
+
+  /**
+   * Check permissions for the posts.
+   *
+   * @param WP_REST_Request $request Current request.
+   */
+  public function get_posts_permissions_check( WP_REST_Request $request ) {
+    // @TODO
+    // if ( ! current_user_can( 'read' ) ) {
+    //   return new WP_Error( 'rest_forbidden', esc_html__( 'You cannot view the post resource.' ), array( 'status' => $this->authorization_status_code() ) );
+    // }
+    return true;
+  }
+
+  /**
+   * Sanitize an array of arguments to be sent within the request
+   *
+   * @param $array Array of arguments to sanitize
+   */
+	public function recursive_sanitize_text_field($array) {
+	  foreach ( $array as $key => &$value ) {
+	    if ( is_array( $value ) ) {
+      	$value = $this->recursive_sanitize_text_field($value);
+	    }
+	    else {
+	    	if ($value === '<=' || $value === '>=') {
+	    		continue;
+	    	}
+      	$value = sanitize_text_field( $value );
+	    }
+	  }
+
+	  return $array;
+	}
+
+  /**
+   * Returns the arguments to be used in get_posts() method
+   *
+   * @param WP_REST_Request $request Current request.
+   */
+  public function prepare_args ( WP_REST_Request $request ) {
+
+    $meta_query_param = $request['meta_query'];
+
+	  $args = array (
+	  	'numberposts' => -1, // All opps
+	    'post_type'   => 'opp',
+	    'post_status' => 'publish'
+	  );
+
+    if (is_array($meta_query_param)) {
+      $args['meta_query'] = $this->recursive_sanitize_text_field($meta_query_param);
+    } else {
+      $args['meta_query'] = $meta_query_param;
+    }
+
+		return $args;
+  }
+
+  /**
+   * Returns opportunities as a rest response.
+   *
+   * @param WP_REST_Request $request Current request.
+   */
+  public function get_posts( WP_REST_Request $request ) {
+  	$args = $this->prepare_args ( $request );
+
+		// Debug
+    if ($this->debug === true) {
+  		$the_query = new WP_Query( $args );
+  		print_r($args);
+  		print_r($the_query->request);
+    }
+
+    // $posts = get_posts( $args );
+    global $wpdb;
+    $posts = $wpdb->get_results("
+      SELECT * FROM {$wpdb->prefix}posts p
+      LEFT JOIN {$wpdb->prefix}postmeta pm
+        ON
+          pm.post_id = p.ID
+        AND
+          pm.meta_key LIKE 'dates_%'
+      WHERE
+        p.post_type = 'opp'
+      AND
+        p.post_status = 'publish'
+      AND
+        pm.meta_value
+      BETWEEN
+        CAST('".$args['meta_query'][0]['value'][0]."' AS DATE)
+      AND
+        CAST('".$args['meta_query'][0]['value'][1]."' AS DATE)
+      GROUP BY p.ID
+      ORDER BY pm.meta_value ASC
+    ");
+
+    $data = array();
+
+    if ( empty( $posts ) ) {
+      // return rest_ensure_response( $data );
+      return new WP_REST_Response( $data, 200 );
+    }
+
+    foreach ( $posts as $post ) {
+    	// Debug
+      if ($this->debug === true) {
+        print_r($post);
+        print_r(get_post_custom($post->ID));
+        print_r(get_post_custom($post->ID)['location'][3]);
+        print_r(get_post_custom($post->ID)['organisation']);
+        print_r(get_post_custom($post->ID)['dates']);
+
+        for ($i=0; $i < get_post_custom($post->ID)['dates']; $i++) {
+          print_r(get_post_custom($post->ID)['dates_' . $i . '_date']);
+        }
+      }
+
+      $response = $this->prepare_item_for_response( $post, $request );
+      $data[] = $this->prepare_response_for_collection( $response );
+    }
+
+    // Return all of our comment response data.
+    // return rest_ensure_response( $data );
+    return new WP_REST_Response( $data, 200 );
+  }
+
+  /**
+   * Check permissions for the posts.
+   *
+   * @param WP_REST_Request $request Current request.
+   */
+  public function get_post_permissions_check( WP_REST_Request $request ) {
+    // @TODO
+    // if ( ! current_user_can( 'read' ) ) {
+    //   return new WP_Error( 'rest_forbidden', esc_html__( 'You cannot view the post resource.' ), array( 'status' => $this->authorization_status_code() ) );
+    // }
+    return true;
+  }
+
+  /**
+   * Grabs the five most recent posts and outputs them as a rest response.
+   *
+   * @param WP_REST_Request $request Current request.
+   */
+  public function get_post( WP_REST_Request $request ) {
+    $id = (int) $request['id'];
+    $post = get_post( $id );
+
+    if ( empty( $post ) ) {
+      // return rest_ensure_response( array() );
+      return new WP_REST_Response( [], 200 );
+    }
+
+    return prepare_item_for_response( $post, $request);
+  }
+
+  private function prepare_dates ($post) {
+    $dates = array();
+    $post = get_post_custom($post->ID);
+    $len = $post['dates'][0];
+    for ($i=0; $i < $len; $i++) {
+      $dates[] = $post['dates_' . $i . '_date'][0];
+    }
+    return $dates;
+  }
+
+  /**
+   * Matches the post data to the schema we want.
+   *
+   * @param WP_Post $post The comment object whose response is being prepared.
+   * @param WP_REST_Request $request Current request.
+   */
+  public function prepare_item_for_response( $post, $request ) {
+    $post_data = array();
+
+    $schema = $this->get_post_schema( $request );
+    $custom_fields = get_post_custom($post->ID);
+
+    // Checks if field is set in schema.
+    if ( isset( $schema['properties']['id'] ) ) {
+      $post_data['id'] = (int) $post->ID;
+    }
+
+    // Checks if field is set in schema.
+    if ( isset( $schema['properties']['title'] ) ) {
+      $post_data['title'] = apply_filters( 'the_title', $post->post_title, $post );
+    }
+
+    // Checks if field is set in schema.
+    if ( isset( $schema['properties']['custom_fields']['opp_categories'] ) ) {
+      $post_data['opp_categories'] = get_post_meta($post->ID,'opp_category')[0];
+    }
+
+    // Checks if field is set in schema.
+    if ( isset( $schema['properties']['custom_fields']['organisation'] ) ) {
+      $post_data['organisation'] = get_post_meta($post->ID,'organisation')[0];
+    }
+
+    // Checks if field is set in schema.
+    if ( isset( $schema['properties']['custom_fields']['location'] ) ) {
+      $post_data['location'] = get_post_meta($post->ID,'location')[0];
+    }
+
+    // Checks if field is set in schema.
+    if ( isset( $schema['properties']['custom_fields']['location_text'] ) ) {
+      $post_data['location_text'] = get_post_meta($post->ID,'location_text')[0];
+    }
+
+    // Checks if field is set in schema.
+    if ( isset( $schema['properties']['custom_fields']['ivol_link'] ) ) {
+      $post_data['ivol_link'] = get_post_meta($post->ID,'ivol_link')[0];
+    }
+
+    // Checks if field is set in schema.
+    if ( isset( $schema['properties']['custom_fields']['dates'] ) ) {
+      $post_data['dates'] = $this->prepare_dates($post);
+    }
+
+    // return rest_ensure_response( $post_data );
+    return new WP_REST_Response( $post_data, 200 );
+  }
+
+  /**
+   * Prepare a response for inserting into a collection of responses.
+   *
+   * This is copied from WP_REST_Controller class in the WP REST API v2 plugin.
+   *
+   * @param WP_REST_Response $response Response object.
+   * @return array Response data, ready for insertion into collection data.
+   */
+  public function prepare_response_for_collection( $response ) {
+    if ( ! ( $response instanceof WP_REST_Response ) ) {
+      return $response;
+    }
+
+    $data = (array) $response->get_data();
+    $server = rest_get_server();
+
+    if ( method_exists( $server, 'get_compact_response_links' ) ) {
+      $links = call_user_func( array( $server, 'get_compact_response_links' ), $response );
+    } else {
+      $links = call_user_func( array( $server, 'get_response_links' ), $response );
+    }
+
+    if ( ! empty( $links ) ) {
+      $data['_links'] = $links;
+    }
+
+    return $data;
+  }
+
+  /**
+   * Get our sample schema for a post.
+   *
+   * @param WP_REST_Request $request Current request.
+   */
+  public function get_post_schema( WP_REST_Request $request ) {
+    $schema = array(
+      // This tells the spec of JSON Schema we are using.
+      '$schema'              => 'http://json-schema.org/schema#',
+      'title'                => 'opps',
+      'type'                 => 'object',
+      // In JSON Schema you can specify object properties in the properties attribute.
+      'properties'           => array(
+        'id' => array(
+          'description'  => esc_html__( 'Unique identifier for the object.' ),
+          'type'         => 'integer',
+          'context'      => array( 'view' ),
+          'readonly'     => true,
+        ),
+        'title' => array(
+          'description'  => esc_html__( 'The title for the object.' ),
+          'type'         => 'string',
+          'context'      => array( 'view' ),
+          'readonly'     => true,
+        ),
+        'custom_fields' => array(
+          'opp_categories' => array(
+            'description'  => esc_html__( 'The categories of that opportunity. Only 4 will be shown.' ),
+            'type'         => 'array',
+            'context'      => array( 'view' ),
+            'readonly'     => true,
+          ),
+          'organisation' => array(
+            'description'  => esc_html__( 'The organisation of that opportunity.' ),
+            'type'         => 'string',
+            'context'      => array( 'view' ),
+            'readonly'     => true,
+          ),
+          'location' => array(
+            'description'  => esc_html__( 'The location of that opportunity.' ),
+            'type'         => 'object',
+            'context'      => array( 'view' ),
+            'readonly'     => true,
+          ),
+          'location_text' => array(
+            'description'  => esc_html__( 'The text for the location of that opportunity.' ),
+            'type'         => 'string',
+            'context'      => array( 'view' ),
+            'readonly'     => true,
+          ),
+          'ivol_link' => array(
+            'description'  => esc_html__( 'The iVol link of that opportunity.' ),
+            'type'         => 'string',
+            'context'      => array( 'view' ),
+            'readonly'     => true,
+          ),
+          'dates' => array(
+            'description'  => esc_html__( 'The dates of that opportunity.' ),
+            'type'         => 'array',
+            'context'      => array( 'view' ),
+            'readonly'     => true,
+          ),
+        ),
+      ),
+    );
+
+    return $schema;
+  }
+
+  // Sets up the proper HTTP status code for authorization.
+  public function authorization_status_code() {
+
+    $status = 401;
+
+    if ( is_user_logged_in() ) {
+      $status = 403;
+    }
+
+    return $status;
+  }
+}
+
+add_action( 'rest_api_init', function() {
+  $controller = new Opps_Posts_Controller();
+  $controller->register_routes();
+});
+
 
 /**
  * Widgets for this theme.

@@ -24,7 +24,7 @@ ga('newTracker.send', 'pageview');
 </script>
 
 
-		<? // show the ADMIN info
+		<?php // show the ADMIN info
 			$current_user = wp_get_current_user();
 
 			$whitelist = array(
@@ -39,8 +39,8 @@ ga('newTracker.send', 'pageview');
 			if (user_can( $current_user, 'administrator' )) { $WP_admin_loggedin = true; }
 
 			if($WP_admin_loggedin){ ?>
-				<link rel="stylesheet" type="text/css" href="<? echo get_stylesheet_directory_uri(). '/dev.css' ?>">
-			<? }
+				<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri(). '/dev.css' ?>">
+			<?php }
 		?>
 
 		<?php wp_head(); ?>
@@ -51,21 +51,21 @@ ga('newTracker.send', 'pageview');
 	?>
 	<body class="home bck_img" style="background-image:url(<?php echo $bg_img['url'] ?>)" data-img="<?php echo $bg_img['url'] ?>" <?php body_class('animated fadeIn'); ?>>
 
-		<? if($WP_admin_loggedin){ ?>
+		<?php if($WP_admin_loggedin){ ?>
 			<div class="dev_message_container">
 				<div class="dev_message">
 					<p>
-						<? if($is_local){ ?>
+						<?php if($is_local){ ?>
 							👍 local site
-						<? } else { ?>
+						<?php } else { ?>
 							<span class="blink_me">🔴</span> LIVE SITE
-						<? }
-						if (user_can( $current_user, 'administrator' )) { ?>, logged in as <b>admin</b>, <?php edit_post_link('edit current page', '<span>', '</span>'); ?> <? }  ?>
-						(page id: <? global $post; echo $post->ID; ?> )
+						<?php }
+						if (user_can( $current_user, 'administrator' )) { ?>, logged in as <b>admin</b>, <?php edit_post_link('edit current page', '<span>', '</span>'); ?> <?php }  ?>
+						(page id: <?php global $post; echo $post->ID; ?> )
 					</p>
 				</div>
 			</div>
-		<? } ?>
+		<?php } ?>
 
 		<main class="vdc-tint-b-p">
 

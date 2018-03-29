@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
 Organisation events, no categories
 */
 
@@ -29,6 +29,36 @@ $vdc_vol_even = new CPT(array(
 
 
 
+// // Org Categories
+// // $vdc_org_events->register_taxonomy(array(
+// //     'taxonomy_name' => 'orgcats',
+// //     'singular' => 'Category',
+// //     'plural' => 'Categories',
+// //     'slug' => 'orgcats'
+// // ));
+
+// /*
+// Vol events, no categories
+// */
+// $vdc_vol_events = new CPT(array(
+// 	'post_type_name' => 'volevent',
+// 	'singular' => 'Vol Event (old)',
+// 	'plural' => 'Vol Events (old)',
+// 	'slug' => 'volevent'
+// ), array(
+// 	'supports'	=> array('title', 'editor', 'thumbnail'),
+// 	'menu_icon' => 'dashicons-calendar-alt'
+// ));
+// // Vol Categories
+// $vdc_vol_events->register_taxonomy(array(
+//     'taxonomy_name' => 'volcats',
+//     'singular' => 'Category',
+//     'plural' => 'Categories',
+//     'has_archive' => true,
+//     // 'hierarchical' => true,
+//     'slug' => 'volcats'
+// ));
+
 
 
 // Opportunities
@@ -39,8 +69,8 @@ $vdc_opportunities = new CPT(array(
 	'slug' => 'opp'
 ), array(
 	'supports'	=> array('title'),
-	// 'show_in_rest'       => true,
-	// 'rest_base'          => 'opps-api',
+	'show_in_rest'       => true,
+	'rest_base'          => 'opps-api',
 	'rest_controller_class' => 'WP_REST_Posts_Controller',
 ));
 
