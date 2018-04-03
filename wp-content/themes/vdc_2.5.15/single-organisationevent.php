@@ -2,11 +2,6 @@
 <?php 
 	$location = get_field('location');
 	$location_text = get_field('location_text');
-	$begin_time = get_field('begin_time');
-	$end_time = get_field('end_time');
-
-	$rawDate = get_field('date', false, false);
-	$date = new DateTime($rawDate);
 ?>
 <div class="container">
 	<h1 class="text-center"><?php the_title(); ?></h1>
@@ -17,22 +12,18 @@
 		</div>
 		<div class="col-md-5">
 			<h4 class="opp-title">When is it on?</h4>
-			<span class="opp-info"><? echo  $date->format('l F jS, Y'); ?></span>
+			<span class="opp-info"><?php the_field('date'); ?></span>
 			<hr>
 			<h4 class="opp-title">What time?</h4>
-			<span class="opp-info"><?php echo $begin_time; if($end_time){ ?> &mdash;  <? echo $end_time; } ?> </span>
+			<span class="opp-info"><?php if($time_end){?> &mdash; <?php the_field('time_end'); ?>  <? } ?>
+				<?php the_field('begin_time'); ?> 
+				<?php if(get_field('end_time')){?> &mdash; <?php the_field('end_time'); ?>  <? } ?>
+			</span>
 			<hr>
 			<h4 class="opp-title">Where is it on?</h4>
 			<span class="opp-info">
 				<?php 
-					if($location_text && $location) {
-						?>
-						<a href="http://maps.google.com/maps?z=12&t=m&q=loc:<? echo get_field("location")['lat']; ?>+<? echo get_field("location")['lng']; ?>" 
-							target="_blank">
-							<?php echo $location_text; ?></a>
-						<?
-					}
-					else if($location_text) {
+					if($location_text) {
 						echo $location_text;
 					} else { 
 						echo $location['address'];
