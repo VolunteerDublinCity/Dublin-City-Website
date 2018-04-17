@@ -1,5 +1,6 @@
 <span class="day"
-  ng-click="select(day)"
+  ng-click="day.opps.length === 0 || select(day)"
+  ng-disabled="day.opps.length === 0"
   aria-role="button"
   tabindex="{{day.opps.length === 0 ? -1 : 0}}"
   ng-class="{
